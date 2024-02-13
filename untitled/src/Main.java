@@ -9,4 +9,5 @@ public class Main {
         System.out.println("Hi!");
         System.out.println("Emae");
         System.out.println("Ku");
+        System.out.println("test");
 }}
