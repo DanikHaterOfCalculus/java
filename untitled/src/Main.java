@@ -11,6 +11,5 @@ public class Main {
         System.out.println("Ku");
         System.out.println("test");
         System.out.println("kuuu");
-        System.out.println("dsadas");
-
+    }
 
