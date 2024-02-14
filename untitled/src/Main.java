@@ -10,4 +10,5 @@ public class Main {
         System.out.println("Emae");
         System.out.println("Ku");
         System.out.println("test");
+        System.out.println("kuuu");
 }}
