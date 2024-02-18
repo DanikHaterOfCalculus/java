@@ -15,8 +15,28 @@ public class ManagementSystem {
         System.out.println("Car added");
     }
     public void getallcars() {
-        for (Car car : cars) {
-            System.out.println("Brand: " + car.getBrand() + ", Year: " + car.getYear() + ", Mileage: " + car.getMileage());
+        for (int i=0; i<cars.size();i++) {
+            Car car=cars.get(i);
+            System.out.println((i+1)+". Brand: " + car.getBrand() + ", Year: " + car.getYear() + ", Mileage: " + car.getMileage());
+        }
+    }
+    public List<Car> GetAllcars(){
+        return cars;
+    }
+    public void checkOutCar(Rent rent) {
+        boolean found = false;
+        for (int i = 0; i < cars.size(); i++) {
+            Car car = cars.get(i);
+            if (car.getBrand().equals(rent.getCar())) {
+                found = true;
+                cars.remove(car);
+                checkedoutcars.add(rent);
+                System.out.println("Car checked out successfully!");
+                break;
+            }
+        }
+        if (found=false) {
+            System.out.println("Car is not available for rent.");
         }
     }
 

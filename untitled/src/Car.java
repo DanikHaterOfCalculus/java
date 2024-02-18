@@ -8,12 +8,6 @@ public class Car {
         this.year = year;
         this.mileage = mileage;
     }
-
-    public void displayCarList() {
-        System.out.println("Car: " + brand);
-        System.out.println("Year: " + year);
-        System.out.println("Probeg: " + mileage);
-    }
     public String getBrand() {
         return brand;
     }
