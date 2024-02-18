@@ -8,8 +8,9 @@ public class Main {
             System.out.println("1. Add a new car");
             System.out.println("2. Rent a car");
             System.out.println("3. Display all cars");
-            System.out.println("4. Display checked out cars");
-            System.out.println("5. Exit");
+            System.out.println("4. Display rented cars");
+            System.out.println("5. History of renting");
+            System.out.println("6. Exit");
             int choice=scanner.nextInt();
             scanner.nextLine();
             switch(choice){
@@ -42,22 +43,15 @@ public class Main {
                 case 3: System.out.println("All cars:");
                 managementSystem.getallcars();
                 break;
-                case 4: System.out.println("Checked out cars:");
-                managementSystem.displayCheckedOutCars();
+                case 4: System.out.println("Show rented cars:");
+                managementSystem.displayrentedCars();
                 break;
-                case 5: System.out.println("Exiting...");
+                case 5:
+                    System.out.println("History of renting");
+                    managementSystem.getTransactionHistory().displayTransactionHistory();
+                    break;
+                case 6: System.out.println("Exiting...");
                 System.exit(0);
                 break;
-                default:System.out.println("Invalid choice. Please enter number between 1 and 5");
-            }
-        }
-
-
-
-
-
-
-
-
-    }
-}
+                default:System.out.println("Invalid choice. Please enter number between 1 and 6");
+            }}}}
