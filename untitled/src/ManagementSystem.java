@@ -58,6 +58,24 @@ public class ManagementSystem {
             }
         }
     }
+    public Rent findRent(String customerName, String carBrand) {
+        for (Rent rent : checkedoutcars) {
+            if (rent.getCustomer().equals(customerName) && rent.getCar().getBrand().equals(carBrand)) {
+                return rent;
+            }
+        }
+        return null;
+    }
+    public void returnCar(Rent rent) {
+        boolean found = checkedoutcars.remove(rent);
+        if (found) {
+            cars.add(rent.getCar());
+            System.out.println("Car returned successfully!");
+            addToTransactionHistory(rent);
+        } else {
+            System.out.println("This car was not rented from our system.");
+        }
+    }
     public void addToTransactionHistory(Rent rent) {
         transactionHistory.addTransaction("Rent", rent.getCar().getBrand(), rent.getCustomer());
         try {
@@ -68,7 +86,7 @@ public class ManagementSystem {
                 statement.setInt(3, rent.getYear());
                 statement.setInt(4, rent.getCar().getMileage());
                 statement.setInt(5, rent.getDuration());
-                statement.setDate(6, new java.sql.Date(System.currentTimeMillis()));  // Use current date for RentDate
+                statement.setDate(6, new java.sql.Date(System.currentTimeMillis()));
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -106,10 +124,3 @@ public class ManagementSystem {
         DatabaseConnection.disconnect(connection);
     }
 }
-
-
-
-
-
-
-
