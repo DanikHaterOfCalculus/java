@@ -31,5 +31,5 @@ This is a simple car rental management system implemented in Java with a Postgre
 - Yerasyl Serikbek
 - Danial Turzhanov
 - Tamerlan Ussenov
-Group SE-2331
+- Group SE-2331
 
