@@ -1,13 +1,19 @@
+import java.sql.Connection;
 import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        ManagementSystem managementSystem= new ManagementSystem();
-        while (true){
+        Connection connection = DatabaseConnection.connect();
+
+        // Ensure that the connection is not null
+        if (connection != null) {
+            TransactionHistory transactionHistory = new TransactionHistory(connection);
+            ManagementSystem managementSystem = new ManagementSystem(connection);
+                while (true){
             System.out.println("\nCar rental management system:");
             System.out.println("1. Add a new car");
             System.out.println("2. Rent a car");
-            System.out.println("3. Display all cars");
+            System.out.println("3. Display avaiable cars");
             System.out.println("4. Display rented cars");
             System.out.println("5. History of renting");
             System.out.println("6. Exit");
@@ -34,13 +40,13 @@ public class Main {
                         Car selectedCar = managementSystem.GetAllcars().get(carChoice - 1);
                         System.out.println("Enter rental duration (in days):");
                         int duration = scanner.nextInt();
-                        Rent rent = new Rent(1, customerName, selectedCar.getBrand(), duration);
+                        Rent rent = new Rent(customerName, selectedCar, selectedCar.getYear(), duration);
                         managementSystem.checkOutCar(rent);
                     } else {
                         System.out.println("Invalid car selection.");
                     }
                     break;
-                case 3: System.out.println("All cars:");
+                case 3: System.out.println("Available cars:");
                 managementSystem.getallcars();
                 break;
                 case 4: System.out.println("Show rented cars:");
@@ -54,4 +60,4 @@ public class Main {
                 System.exit(0);
                 break;
                 default:System.out.println("Invalid choice. Please enter number between 1 and 6");
-            }}}}
+            }}}}}

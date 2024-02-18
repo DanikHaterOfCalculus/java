@@ -1,45 +1,64 @@
+import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDateTime;
+
 public class TransactionHistory {
-    private static int nextTransactionId = 1;
-    private List<Transaction> transactions;
-    public TransactionHistory() {
-        this.transactions = new ArrayList<>();
+    private Connection connection;
+
+    public TransactionHistory(Connection connection) {
+        this.connection = connection;
+        createTransactionTable();
     }
+
     public void addTransaction(String action, String car, String customer) {
-        Transaction transaction = new Transaction(nextTransactionId++, LocalDateTime.now(), action, car, customer);
-        transactions.add(transaction);
+        try {
+            String sql = "INSERT INTO transaction (timestamp, action, car, customer) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setObject(1, LocalDateTime.now());
+                statement.setString(2, action);
+                statement.setString(3, car);
+                statement.setString(4, customer);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
-    public List<Transaction> getHistory() {
-        return transactions;
-    }
+
     public void displayTransactionHistory() {
-        System.out.println("\nTransaction History:");
-        for (Transaction transaction : transactions) {
-            transaction.displayTransactionDetails();
-            System.out.println("-------------------------");
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM transaction");
+            System.out.println("\nTransaction History:");
+            while (resultSet.next()) {
+                int transactionId = resultSet.getInt("id");
+                LocalDateTime timestamp = resultSet.getObject("timestamp", LocalDateTime.class);
+                String action = resultSet.getString("action");
+                String car = resultSet.getString("car");
+                String customer = resultSet.getString("customer");
+                System.out.println("Transaction ID: " + transactionId);
+                System.out.println("Timestamp: " + timestamp);
+                System.out.println("Action: " + action);
+                System.out.println("Car: " + car);
+                System.out.println("Customer: " + customer);
+                System.out.println("-------------------------");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
-    public class Transaction {
-        private int transactionId;
-        private LocalDateTime timestamp;
-        private String action;
-        private String car;
-        private String customer;
-        public Transaction(int transactionId, LocalDateTime timestamp, String action, String car, String customer) {
-            this.transactionId = transactionId;
-            this.timestamp = timestamp;
-            this.action = action;
-            this.car = car;
-            this.customer = customer;
-        }
-        public void displayTransactionDetails() {
-            System.out.println("Transaction ID: " + transactionId);
-            System.out.println("Timestamp: " + timestamp);
-            System.out.println("Action: " + action);
-            System.out.println("Car: " + car);
-            System.out.println("Customer: " + customer);
+
+    private void createTransactionTable() {
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS transaction (" +
+                    "id SERIAL PRIMARY KEY, " +
+                    "timestamp TIMESTAMP, " +
+                    "action VARCHAR(255), " +
+                    "car VARCHAR(255), " +
+                    "customer VARCHAR(255))");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
