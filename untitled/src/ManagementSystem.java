@@ -35,12 +35,24 @@ public class ManagementSystem {
                 break;
             }
         }
-        if (found=false) {
+        if (found = false) {
             System.out.println("Car is not available for rent.");
+        }}
+    public void displayCheckedOutCars () {
+            if (checkedoutcars.isEmpty()) {
+                System.out.println("No cars checked out.");
+            } else {
+                System.out.println("Checked Out Cars:");
+                for (Rent checkedOutRent : checkedoutcars) {
+                    System.out.println("Customer: " + checkedOutRent.getCustomer() + ", Car: " + checkedOutRent.getCar() + ", Duration: " + checkedOutRent.getDuration());
+                    System.out.println("-------------------------");
+                }
+            }
         }
     }
 
 
 
-}
+
+
 
