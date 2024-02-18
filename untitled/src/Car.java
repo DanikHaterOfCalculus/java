@@ -20,7 +20,7 @@ public class Car {
     public int getYear() {
         return year;
     }
-    public int getProbeg() {
+    public int getMileage() {
         return mileage;
     }
 }
