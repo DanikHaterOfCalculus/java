@@ -15,7 +15,7 @@ public class Main {
         while (true) {
             printMenu();
             int choice = scanner.nextInt();
-            scanner.nextLine(); // consume newline
+            scanner.nextLine();
             switch (choice) {
                 case 1:
                     managementSystem.addNewCar();
