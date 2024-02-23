@@ -18,7 +18,6 @@ public class DatabaseConnection {
         }
         return connection;
     }
-
     public static void disconnect(Connection connection) {
         if (connection != null) {
             try {
@@ -31,5 +30,4 @@ public class DatabaseConnection {
         }
 
     }
-
 }

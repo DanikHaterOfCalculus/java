@@ -50,15 +50,25 @@ public class TransactionHistory {
     }
 
     private void createTransactionTable() {
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS transaction (" +
-                    "id SERIAL PRIMARY KEY, " +
-                    "timestamp TIMESTAMP, " +
-                    "action VARCHAR(255), " +
-                    "car VARCHAR(255), " +
-                    "customer VARCHAR(255))");
+        try {
+            DatabaseMetaData metaData = connection.getMetaData();
+            ResultSet resultSet = metaData.getTables(null, null, "transaction", null);
+            if (!resultSet.next()) {
+                try (Statement statement = connection.createStatement()) {
+                    statement.executeUpdate("CREATE TABLE transaction (" +
+                            "id SERIAL PRIMARY KEY, " +
+                            "timestamp TIMESTAMP, " +
+                            "action VARCHAR(255), " +
+                            "car VARCHAR(255), " +
+                            "customer VARCHAR(255))");
+                    System.out.println("Table 'transaction' created successfully.");
+                }
+            } else {
+                System.out.println("Table 'transaction' already exists.");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 }
