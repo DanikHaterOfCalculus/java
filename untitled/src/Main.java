@@ -1,13 +1,15 @@
-import java.sql.Connection;
 import java.util.Scanner;
+import java.sql.Connection;
 
 public class Main {
     public static void main(String[] args) {
-        Connection connection = DatabaseConnection.connect();
+        DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
+        Connection connection = databaseConnection.getConnection();
         if (connection != null) {
             ManagementSystem managementSystem = new ManagementSystem(connection);
             runCarRentalSystem(managementSystem);
         }
+        databaseConnection.disconnect();
     }
 
     private static void runCarRentalSystem(ManagementSystem managementSystem) {

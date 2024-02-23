@@ -1,24 +1,32 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
 public class DatabaseConnection {
     private static final String JDBC_URL = "jdbc:postgresql://localhost:27030/Carrental";
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "Nurlan25";
+    private Connection connection;
 
-    public static Connection connect() {
-        Connection connection = null;
+    private DatabaseConnection() {
         try {
-            Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+            this.connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
             System.out.println("Connected to the PostgreSQL server successfully.");
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Failed to connect to the PostgreSQL server.");
             e.printStackTrace();
         }
+    }
+
+    public static DatabaseConnection getInstance() {
+        return singleton.INSTANCE;
+    }
+
+    public Connection getConnection() {
         return connection;
     }
-    public static void disconnect(Connection connection) {
+
+    public void disconnect() {
         if (connection != null) {
             try {
                 connection.close();
@@ -28,6 +36,13 @@ public class DatabaseConnection {
                 e.printStackTrace();
             }
         }
+    }
 
+    private static class singleton {//SINGLETON PATTERN
+        private static final DatabaseConnection INSTANCE = new DatabaseConnection();
+    }
+
+    public static Connection connect() {
+        return getInstance().getConnection();
     }
 }
