@@ -40,19 +40,23 @@ public class ManagementSystem {
         scanner.nextLine();
 
         try {
+            Vehicle newCar = VehicleFactory.createCar(brand, year, mileage);
             String sql = "INSERT INTO car (Brand, year, mileage) VALUES (?, ?, ?)";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setString(1, brand);
-                statement.setInt(2, year);
-                statement.setInt(3, mileage);
+                statement.setString(1, newCar.getBrand());
+                statement.setInt(2, newCar.getYear());
+                statement.setInt(3, newCar.getMileage());
                 statement.executeUpdate();
             }
             System.out.println("Car added successfully!");
+            loadCarsFromDatabase();
+            loadCheckedOutVehiclesFromDatabase();
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Failed to add car.");
         }
     }
+
 
 
 

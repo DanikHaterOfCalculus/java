@@ -2,6 +2,11 @@ import java.util.Scanner;
 import java.sql.Connection;
 
 public class Main {
+    // Make that only one sql request will be executed
+    // Connection Pool (Hikari [CP, Data Source]) - пулл соединений
+    // (n количество соединений, например 5 коннектов которые будут переиспользоваться, конфигурировать его)
+    // Work on Exception Handling (Add your own exceptions, do not just print exception stacktrace)
+    // Design Patterns (Abstract Factory, Factory method, Builder, Strategy)
     public static void main(String[] args) {
         DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
         Connection connection = databaseConnection.getConnection();
